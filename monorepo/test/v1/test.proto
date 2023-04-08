@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package test.v1;
+
+service TestService {
+  rpc Test(TestRequest) returns (TestResponse) {}
+}
+
+message Test {
+  int64 id = 1;
+  string text = 2;
+}
+
+message TestRequest {
+  Test test = 1;
+}
+
+message TestResponse {
+  Test test = 1;
+}
+
