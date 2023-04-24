@@ -14,4 +14,4 @@ jobs:
           repository: "RcAvenger/repo-go-test"
           token: ${{ secrets.PAT }}
           event-type: create-pull-request
-          client-payload: '{"ref", "${{ github.ref }}"}'
+          client-payload: '{"ref": "${{ github.ref }}"}'
