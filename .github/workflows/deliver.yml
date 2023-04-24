@@ -12,6 +12,6 @@ jobs:
       - uses: peter-evans/repository-dispatch@v2
         with:
           repository: "RcAvenger/repo-go-test"
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.PAT }}
           event-type: create-pull-request
           client-payload: '{"ref", "${{ github.ref }}"}'
