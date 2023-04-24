@@ -4,8 +4,60 @@ on:
       - main
 
 jobs:
+#   set_matrix:
+#     name: set matrix
+#     runs-on: ubuntu-latest
+#     steps:
+#       - id: matrix
+#         run: |
+#           cd monorepo 
+#           echo -n "::set-output name=servit ce::["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/'
+# 
+#     outputs:
+#       lang: ${{ steps.matrix.output.lang }}
+#       service: ${{ steps.matrix.output.service }}
+#       function: ${{ steps.matrix.output.function }}
+#       version: ${{ steps.matrix.output.version }}
+# 
+#   release:
+#     needs: [set_matrix]
+#     name: release tag
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Bump version and push tag
+#         id: tag_version
+#         uses: mathieudutour/github-tag-action@v6.1
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#       - uses: ncipollo/release-action@v1
+#         with:
+#           tag: ${{ steps.tag_version.outputs.new_tag }}
+#           name: Release ${{ steps.tag_version.outputs.new_tag }}
+#           body: ${{ steps.tag_version.outputs.changelog }}
+#     outputs:
+#       tag: ${{ steps.tag_version.outputs.new_tag }}
+# 
+#   upload:
+#     needs: [set_matrix, release]
+#     name: upload proto files
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         lang: ${{fromJson(needs.set_matrix.outputs.lang)}}
+#         service: ${{fromJson(needs.set_matrix.outputs.service)}}
+#         function: ${{fromJson(needs.set_matrix.outputs.function)}}
+#         version: ${{fromJson(needs.set_matrix.outputs.version)}}
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/upload-artifact@v3
+#         with:
+#           name: ${{ matrix.service }} ${{ matrix.lang }}
+#           path: ${{ github.workspace }}/monorepo/${{ matrix.service }}/${{ matrix.function }}/${{ matrix.version }}/*.proto
+
   dispatch:
-    name: Setup
+#     needs: [upload]
+    name: dispatch api
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,5 +65,5 @@ jobs:
         with:
           repository: RcAvenger/repo-go-test
           token: ${{ secrets.PAT }}
-          event-type: create-pull-request
+          event-type: generate-code
           client-payload: '{"ref": "${{ github.ref }}"}'
