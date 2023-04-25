@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ${{fromJson(needs.set_matrix.outputs.service)}}
+        service: ${{ fromJson(needs.set_matrix.outputs.service) }}
     steps:
       - uses: actions/checkout@v2
       - name: setup buf
