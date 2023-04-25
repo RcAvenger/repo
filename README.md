@@ -2,8 +2,7 @@
 
 - Change into a service specific directory
 - Read every language the .protolangs file declares
-- Run a docker image relevant for each language
-- Take the outputted files and move them into the language specific repository
+- Take the proto files and move and outputted them into the language specific repository
 - Do a simple git diff to see if anything changed
 - If the project did change, commit the changes, and push
 - Rinse and repeat for every folder
