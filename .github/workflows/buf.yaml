@@ -1,6 +1,7 @@
 on:
   push:
-
+    paths:
+      - "monorepo/**"
 
 jobs:
   set_matrix:
