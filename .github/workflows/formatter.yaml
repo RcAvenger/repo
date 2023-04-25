@@ -28,4 +28,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply Code Formatter Change
-          ref: ${{ github.head_ref }}
+          ref: ${{ steps.upstreambranch.outputs.branch }}
