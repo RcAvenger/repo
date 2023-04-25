@@ -14,8 +14,8 @@ jobs:
         name: set matrix
         run: |
           cd monorepo 
-          echo -n "service=["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/' >> $GITHUB_OUTPUT
-
+          OUTPUT=$(echo -n "service=["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/')
+          echo $OUTPUT >> $GITHUB_OUTPUT
     outputs:
       service: ${{ steps.matrix.outputs.service }}
 
