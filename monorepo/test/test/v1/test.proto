@@ -18,21 +18,3 @@ message TestRequest {
 message TestResponse {
   Test test = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
