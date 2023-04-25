@@ -16,7 +16,8 @@ jobs:
         run: |
           echo "branch=$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
-        with: ${{ steps.upstreambranch.outputs.branch }}
+        with: 
+          ref: ${{ steps.upstreambranch.outputs.branch }}
       - name: setup buf
         uses: bufbuild/buf-setup-action@v1
         with:
