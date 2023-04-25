@@ -17,7 +17,7 @@ jobs:
           echo -n "::set-output name=servit ce::["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/'
 
     outputs:
-      service: ${{ steps.matrix.output.service }}
+      service: ${{ steps.matrix.outputs.service }}
 
   buf:
     needs: [set_matrix]
