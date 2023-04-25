@@ -6,13 +6,21 @@ on:
 jobs:
   formatter:
     name: formatter
+    if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, '/format')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: get upstream branch
+        id: upstreambranch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "branch=$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
+        with: ${{ steps.upstreambranch.outputs.branch }}
       - name: setup buf
         uses: bufbuild/buf-setup-action@v1
         with:
-          github_token: ${{ github.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: format
         run: buf format -w
       - name: commit
