@@ -3,9 +3,25 @@ on:
 
 
 jobs:
+  set_matrix:
+    name: set matrix
+    runs-on: ubuntu-latest
+    steps:
+      - id: matrix
+        run: |
+          cd monorepo 
+          echo -n "::set-output name=servit ce::["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/'
+
+    outputs:
+      service: ${{ steps.matrix.output.service }}
+
   buf:
+    needs: [set_matrix]
     name: breaking check and lint 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ${{fromJson(needs.set_matrix.outputs.service)}}
     steps:
       - uses: actions/checkout@v2
       - name: setup buf
@@ -15,7 +31,7 @@ jobs:
       - name: buf lint
         uses: bufbuild/buf-lint-action@v1
         with:
-          input: monorepo
+          input: monorepo/${{ matrix.service }}
       - name: check branking chnages
         uses: bufbuild/buf-breaking-action@v1
         with:
