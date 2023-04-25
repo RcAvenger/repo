@@ -7,11 +7,11 @@ jobs:
     name: set matrix
     runs-on: ubuntu-latest
     steps:
-      - id: matrix
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: set matrix
+      - id: matrix
+        name: set matrix
         run: |
           cd monorepo 
           echo -n "::set-output name=servit ce::["; ls -1d */ | tr -d '/' | awk -v ORS=', ' '{print "\""$0"\""}' | sed 's/,\s$/]/'
