@@ -1,0 +1,22 @@
+on:
+  push:
+
+
+jobs:
+  buf:
+    name: breaking check and lint 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup buf
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.GITHUB_TOKEN }}
+      - name: buf lint
+        uses: bufbuild/buf-lint-action@v1
+        with:
+          input: repo
+      - name: check branking chnages
+        uses: bufbuild/buf-breaking-action@v1
+        with:
+          against: 'https://github.com/RcAvenger/repo.git#branch=main'
